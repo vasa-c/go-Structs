@@ -1,4 +1,4 @@
-go-Structs
-==========
+# go\Structs
 
-under construction
+* uses: PHP 5.3+
+* version: under construction
