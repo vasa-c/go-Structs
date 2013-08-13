@@ -1,6 +1,6 @@
 <?php
 /**
- * Error: object is read-only
+ * Error: set property is forbidden
  *
  * @package go\Request
  * @author Grigoriev Oleg aka vasa_c <go.vasac@gmail.com>
@@ -8,7 +8,7 @@
 
 namespace go\Structs\Exceptions;
 
-class ReadOnly extends Logic
+abstract class ReadOnly extends Logic
 {
     /**
      * Constructor
@@ -20,8 +20,7 @@ class ReadOnly extends Logic
     {
         $this->service = $service;
         $this->property = $property;
-        $message = 'Instance of '.$service.' is read-only';
-        parent::__construct($message);
+        parent::__construct($this->createMessage());
     }
 
     /**
@@ -39,6 +38,11 @@ class ReadOnly extends Logic
     {
         return $this->property;
     }
+
+    /**
+     * Create message for construct
+     */
+    abstract protected function createMessage();
 
     /**
      * @var string
