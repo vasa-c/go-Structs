@@ -19,7 +19,7 @@ class MagicArray extends MagicFullAccess
      */
     public function __construct(array $array = null)
     {
-        $this->array = $array ?: array();
+        $this->magicArray = $array ?: array();
     }
 
     /**
@@ -30,7 +30,21 @@ class MagicArray extends MagicFullAccess
      */
     protected function magicGet($key)
     {
-        return isset($this->array[$key]) ? $this->array[$key] : null;
+        if (\array_key_exists($key, $this->magicArray)) {
+            return $this->magicArray[$key];
+        }
+        return $this->magicGetIfNotExists($key);
+    }
+
+    /**
+     * For override
+     *
+     * @param string $key
+     * @return mixed
+     */
+    protected function magicGetIfNotExists($key)
+    {
+        return null;
     }
 
     /**
@@ -41,7 +55,21 @@ class MagicArray extends MagicFullAccess
      */
     protected function magicIsset($key)
     {
-        return \array_key_exists($key, $this->array);
+        if (\array_key_exists($key, $this->magicArray)) {
+            return true;
+        }
+        return $this->magicIssetIfNotExists($key);
+    }
+
+    /**
+     * For override
+     *
+     * @param string $key
+     * @return boolean
+     */
+    protected function magicIssetIfNotExists($key)
+    {
+        return false;
     }
 
     /**
@@ -55,7 +83,7 @@ class MagicArray extends MagicFullAccess
         if ($this->magicReadOnly) {
             throw new ReadOnlyFull($this->magicContainerName, $key);
         }
-        $this->array[$key] = $value;
+        $this->magicArray[$key] = $value;
     }
 
     /**
@@ -68,7 +96,7 @@ class MagicArray extends MagicFullAccess
         if ($this->magicReadOnly) {
             throw new ReadOnlyFull($this->magicContainerName, $key);
         }
-        unset($this->array[$key]);
+        unset($this->magicArray[$key]);
     }
 
     /**
@@ -90,5 +118,5 @@ class MagicArray extends MagicFullAccess
      *
      * @var array
      */
-    protected $array;
+    protected $magicArray;
 }
