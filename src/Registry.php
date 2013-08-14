@@ -196,7 +196,7 @@ class Registry extends MagicAccess\MagicArrayLazy implements \Countable, \Iterat
      */
     public function getIterator()
     {
-        return new \ArrayObject($this->getAllVars(true));
+        return new \ArrayIterator($this->getAllVars(true));
     }
 
     /**
