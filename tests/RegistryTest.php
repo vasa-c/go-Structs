@@ -11,6 +11,9 @@ namespace go\Tests\Structs;
 
 use go\Structs\Registry;
 
+/**
+ * @covers go\Structs\Registry
+ */
 class RegistryTest extends \PHPUnit_Framework_TestCase
 {
     /**
