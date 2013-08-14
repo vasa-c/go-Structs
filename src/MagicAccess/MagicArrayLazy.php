@@ -40,12 +40,13 @@ class MagicArrayLazy extends MagicArray
      * @override \go\Structs\MagicAccess\MagicArray
      *
      * @param string $key
+     * @param mixed $default [optional]
      * @return mixed
      */
-    protected function magicGetIfNotExists($key)
+    protected function magicGetIfNotExists($key, $default = null)
     {
         if (!isset($this->magicCreators[$key])) {
-            return null;
+            return $default;
         }
         $value = \call_user_func($this->magicCreators[$key], $key);
         $this->magicArray[$key] = $value;

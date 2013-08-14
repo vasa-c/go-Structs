@@ -26,25 +26,27 @@ class MagicArray extends MagicFullAccess
      * @override \go\Structs\MagicAccess\MagicFullAccess
      *
      * @param string $key
+     * @param mixed $default [optional]
      * @return mixed
      */
-    protected function magicGet($key)
+    protected function magicGet($key, $default = null)
     {
         if (\array_key_exists($key, $this->magicArray)) {
             return $this->magicArray[$key];
         }
-        return $this->magicGetIfNotExists($key);
+        return $this->magicGetIfNotExists($key, $default);
     }
 
     /**
      * For override
      *
      * @param string $key
+     * @param mixed $defautl
      * @return mixed
      */
-    protected function magicGetIfNotExists($key)
+    protected function magicGetIfNotExists($key, $default = null)
     {
-        return null;
+        return $default;
     }
 
     /**

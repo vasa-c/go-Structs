@@ -57,9 +57,10 @@ abstract class MagicPropsAccess implements IMagicPropsAccess
      * Get inner value by key
      *
      * @param string $key
+     * @param mixed $default
      * @return mixed
      */
-    abstract protected function magicGet($key);
+    abstract protected function magicGet($key, $default = null);
 
     /**
      * Set inner value
