@@ -17,6 +17,7 @@ class Create
     public function __construct()
     {
         $this->args = \func_get_args();
+        self::$calls[] = isset($this->args[0]) ? $this->args[0] : null;
     }
 
     /**
@@ -30,7 +31,25 @@ class Create
     }
 
     /**
+     * @return array
+     */
+    public static function getCalls()
+    {
+        return self::$calls;
+    }
+
+    public static function resetCalls()
+    {
+        self::$calls = array();
+    }
+
+    /**
      * @var array
      */
     private $args;
+
+    /**
+     * @var array
+     */
+    private static $calls = array();
 }
