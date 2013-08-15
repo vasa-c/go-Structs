@@ -17,7 +17,7 @@ use go\Structs\Creator\Creator;
 class CreatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers go\Structs\Creator\Creator
+     * @covers go\Structs\Creator\Creator::create
      * @dataProvider providerCreate
      * @param mixed $spec
      * @param string $namespace
@@ -174,7 +174,7 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers go\Structs\Creator\Creator $listCreate
+     * @covers go\Structs\Creator\Creator::listCreate
      */
     public function testListCreate()
     {
