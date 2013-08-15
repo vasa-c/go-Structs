@@ -16,7 +16,6 @@ use go\Structs\ErrorsList;
  */
 class ErrorsListTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testSuccess()
     {
         $errors = new ErrorsList();
