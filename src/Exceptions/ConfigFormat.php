@@ -20,7 +20,7 @@ class ConfigFormat extends Logic
     {
         $this->owner = $owner;
         $this->desc = $desc;
-        $message = 'Error config'.($owner ? ' for owner' : '').($desc ? ': '.$desc : '');
+        $message = 'Error config'.($owner ? ' for '.$owner : '').($desc ? ': '.$desc : '');
         parent::__construct($message);
     }
 
