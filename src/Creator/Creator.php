@@ -89,6 +89,18 @@ class Creator
     }
 
     /**
+     * Create factory
+     *
+     * @param string $namespace [optional]
+     * @param array $cargs [optional]
+     * @return \go\Structs\Creator\Factory
+     */
+    public static function getFactory($namespace = null, array $cargs = null)
+    {
+        return new Factory($namespace, $cargs);
+    }
+
+    /**
      * @param string $classname
      * @param string $namespace
      * @return string

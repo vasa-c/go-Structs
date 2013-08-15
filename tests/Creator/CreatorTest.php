@@ -186,4 +186,18 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('go\Tests\Structs\Creator\mocks\Create', $actual['a']);
         $this->assertInstanceOf('go\Tests\Structs\Creator\mocks\Create', $actual['b']);
     }
+
+    /**
+     * @covers go\Structs\Creator\Creator::getFactory
+     */
+    public function testGetFactory()
+    {
+        $factory = Creator::getFactory('go\Tests\Structs\Creator\mocks');
+        $this->assertInstanceOf('go\Structs\Creator\Factory', $factory);
+        $this->assertEquals('go\Tests\Structs\Creator\mocks', $factory->getBasicNamespace());
+        $this->assertEquals(array(), $factory->getConstructArgs());
+        $object = $factory->create(array('Create', array(5, 6, 7)));
+        $this->assertInstanceOf('go\Tests\Structs\Creator\mocks\Create', $object);
+        $this->assertEquals(array(5, 6, 7), $object->getArgs());
+    }
 }

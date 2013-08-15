@@ -19,7 +19,7 @@ class Factory
     public function __construct($namespace = null, array $cargs = null)
     {
         $this->namespace = $namespace;
-        $this->cargs = $cargs;
+        $this->cargs = $cargs ?: array();
     }
 
     /**
