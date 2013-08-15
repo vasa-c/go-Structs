@@ -172,4 +172,18 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    /**
+     * @covers go\Structs\Creator\Creator $listCreate
+     */
+    public function testListCreate()
+    {
+        $specs = array(
+            'a' => '\go\Tests\Structs\Creator\mocks\Create',
+            'b' => 'Create',
+        );
+        $actual = Creator::listCreate($specs, 'go\Tests\Structs\Creator\mocks');
+        $this->assertInstanceOf('go\Tests\Structs\Creator\mocks\Create', $actual['a']);
+        $this->assertInstanceOf('go\Tests\Structs\Creator\mocks\Create', $actual['b']);
+    }
 }

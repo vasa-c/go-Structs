@@ -71,6 +71,24 @@ class Creator
     }
 
     /**
+     * Create list objects by list specs
+     *
+     * @param array $specs
+     * @param string $namespace [optional]
+     * @param array $cargs [optional]
+     * @return array
+     * @throws \go\Structs\Exceptions\ConfigFormat
+     */
+    public static function listCreate(array $specs, $namespace = null, array $cargs = null)
+    {
+        $result = array();
+        foreach ($specs as $k => $spec) {
+            $result[$k] = self::create($spec, $namespace, $cargs);
+        }
+        return $result;
+    }
+
+    /**
      * @param string $classname
      * @param string $namespace
      * @return string
