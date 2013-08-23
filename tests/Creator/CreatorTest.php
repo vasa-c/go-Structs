@@ -88,6 +88,12 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
                 array(),
             ),
             array(
+                array('Create'),
+                'go\Tests\Structs\Creator\mocks',
+                array(1, 2),
+                array(1, 2),
+            ),
+            array(
                 array(
                     'classname' => 'Create',
                 ),
@@ -123,6 +129,24 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 array(
+                    'classname' => 'go\Tests\Structs\Creator\mocks\Create',
+                    'args' => 'single',
+                ),
+                '',
+                array(1, 2),
+                null,
+            ),
+            array(
+                array(
+                    'classname' => 'go\Tests\Structs\Creator\mocks\Create',
+                    'params' => 'single',
+                ),
+                '',
+                array(1, 2),
+                array('single'),
+            ),
+            array(
+                array(
                     'creator' => $cr,
                 ),
                 null,
@@ -137,6 +161,15 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
                 null,
                 array(1, 2),
                 array(7),
+            ),
+            array(
+                array(
+                    'creator' => $cr,
+                    'params' => 5,
+                ),
+                null,
+                array(1, 2),
+                array(5),
             ),
             array(
                 array(

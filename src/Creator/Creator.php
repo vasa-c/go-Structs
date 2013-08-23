@@ -32,42 +32,25 @@ class Creator
             return $spec;
         }
         if (\is_string($spec)) {
-            $classname = $spec;
-            $args = null;
-        } elseif (\is_array($spec)) {
-            if (isset($spec[0])) {
-                $classname = $spec[0];
-                $args = isset($spec[1]) ? $spec[1] : null;
-            } elseif (isset($spec['classname'])) {
-                $classname = $spec['classname'];
-                $args = isset($spec['args']) ? $spec['args'] : null;
-            } elseif (isset($spec['creator'])) {
-                $creator = $spec['creator'];
-                $args = isset($spec['args']) ? $spec['args'] : $cargs;
-                if (!\is_array($args)) {
-                    $args = array();
-                }
-                return \call_user_func_array($creator, $args);
-            } else {
-                throw new ConfigFormat('Creator');
-            }
-        } else {
-            throw new ConfigFormat('Creator', 'error type of spec - '.\gettype($spec));
+            return self::createByClassname($spec, $namespace, $cargs);
         }
-        if (empty($classname)) {
-            throw new ConfigFormat('Creator', 'classname is empty');
+        if (!\is_array($spec)) {
+            throw new ConfigFormat('Creator', 'error type of spec: '.\gettype($spec));
         }
-        $classname = self::createFullClassname($classname, $namespace);
-        if (!\class_exists($classname, true)) {
-            throw new ConfigFormat('Creator', 'class '.$classname.' is not found');
+        if (isset($spec[0])) {
+            $args = isset($spec[1]) ? $spec[1] : $cargs;
+            return self::createByClassname($spec[0], $namespace, $args);
         }
-        $args = \is_array($args) ? $args : $cargs;
-        if (empty($args)) {
-            return new $classname;
-        } else {
-            $rclass = new \ReflectionClass($classname);
-            return $rclass->newInstanceArgs($args);
+        if (isset($spec['classname'])) {
+            $args = self::createArgs($spec, $cargs);
+            return self::createByClassname($spec['classname'], $namespace, $args);
         }
+        if (isset($spec['creator'])) {
+            $creator = $spec['creator'];
+            $args = self::createArgs($spec, $cargs);
+            return \call_user_func_array($creator, $args);
+        }
+        throw new ConfigFormat('Creator', 'classname or creator is not found');
     }
 
     /**
@@ -101,15 +84,49 @@ class Creator
     }
 
     /**
+     * Create arguments list
+     *
+     * @param array $spec
+     * @param array $cargs
+     * @return array
+     */
+    private static function createArgs(array $spec, array $cargs)
+    {
+        if (isset($spec['params'])) {
+            return array($spec['params']);
+        } elseif (isset($spec['args'])) {
+            if (!\is_array($spec['args'])) {
+                throw new ConfigFormat('Creator', 'args must be array');
+            }
+            return $spec['args'];
+        } else {
+            return $cargs ?: array();
+        }
+    }
+
+    /**
+     * Create instance by relative classname
+     *
      * @param string $classname
      * @param string $namespace
-     * @return string
+     * @param array $args
      */
-    private static function createFullClassname($classname, $namespace)
+    private static function createByClassname($classname, $namespace, $args)
     {
-        if (\strpos($classname, '\\') === 0) {
-            return $classname;
+        if (empty($classname)) {
+            throw new ConfigFormat('Creator', 'classname is empty');
         }
-        return $namespace.'\\'.$classname;
+        if (\strpos($classname, '\\') !== 0) {
+            $classname = $namespace.'\\'.$classname;
+        }
+        if (!\class_exists($classname, true)) {
+            throw new ConfigFormat('Creator', 'class '.$classname.' is not found');
+        }
+        if (empty($args)) {
+            return new $classname();
+        } else {
+            $class = new \ReflectionClass($classname);
+            return $class->newInstanceArgs($args);
+        }
     }
 }
