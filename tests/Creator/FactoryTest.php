@@ -26,9 +26,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testFactory()
     {
-        $factory = new Factory('go\Tests\Structs\Creator\mocks', array(1, 2));
+        $factory = new Factory('go\Tests\Structs\Creator\mocks', array(1, 2), false);
         $this->assertEquals('go\Tests\Structs\Creator\mocks', $factory->getBasicNamespace());
         $this->assertEquals(array(1, 2), $factory->getDefaultArgs());
+        $this->assertFalse($factory->getUP());
         $specs = array(
             'a' => '\go\Tests\Structs\Creator\mocks\Create',
             'b' => 'Create',

@@ -13,13 +13,15 @@ class Factory
     /**
      * Constructor
      *
-     * @param string $namespace [optional]
+     * @param string $ns [optional]
      * @param array $dargs [optional]
+     * @param boolean $up [optional]
      */
-    public function __construct($namespace = null, array $dargs = null)
+    public function __construct($ns = null, array $dargs = null, $up = true)
     {
-        $this->namespace = $namespace;
+        $this->namespace = $ns;
         $this->dargs = $dargs ?: array();
+        $this->up = $up;
     }
 
     /**
@@ -43,6 +45,14 @@ class Factory
     }
 
     /**
+     * @return boolean
+     */
+    public function getUP()
+    {
+        return $this->up;
+    }
+
+    /**
      * Create object by specification
      *
      * @param mixed $spec
@@ -50,7 +60,7 @@ class Factory
      */
     public function create($spec)
     {
-        return Creator::create($spec, $this->namespace, $this->dargs);
+        return Creator::create($spec, $this->namespace, $this->dargs, $this->up);
     }
 
     /**
@@ -62,7 +72,7 @@ class Factory
      */
     public function listCreate(array $specs)
     {
-        return Creator::listCreate($specs, $this->namespace, $this->dargs);
+        return Creator::listCreate($specs, $this->namespace, $this->dargs, $this->up);
     }
 
     /**
@@ -74,7 +84,7 @@ class Factory
      */
     public function __invoke($spec)
     {
-        return Creator::create($spec, $this->namespace, $this->dargs);
+        return Creator::create($spec, $this->namespace, $this->dargs, $this->up);
     }
 
     /**
@@ -86,4 +96,9 @@ class Factory
      * @var array
      */
     protected $dargs;
+
+    /**
+     * @var boolean
+     */
+    protected $up;
 }

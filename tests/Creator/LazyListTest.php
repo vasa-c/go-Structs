@@ -23,6 +23,8 @@ class LazyListTest extends \PHPUnit_Framework_TestCase
 
     protected $args = array('def');
 
+    protected $up = false;
+
     protected $specs = array(
         'one' => array('\go\Tests\Structs\Creator\mocks\Create', array('one')),
         'two' => array('Create', array('two')),
@@ -38,7 +40,7 @@ class LazyListTest extends \PHPUnit_Framework_TestCase
         if ($resetCalls) {
             Create::resetCalls();
         }
-        return new LazyList($this->specs, $this->namespace, $this->args, 'Test');
+        return new LazyList($this->specs, $this->namespace, $this->args, $this->up, 'Test');
     }
 
 
@@ -67,6 +69,15 @@ class LazyListTest extends \PHPUnit_Framework_TestCase
     {
         $ll = $this->createLL();
         $this->assertEquals($this->args, $ll->getDefaultArgs());
+    }
+
+    /**
+     * @covers go\Structs\Creator\LazyList::getUP
+     */
+    public function testGetUP()
+    {
+        $ll = $this->createLL();
+        $this->assertFalse($ll->getUP());
     }
 
     /**

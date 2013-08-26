@@ -20,16 +20,17 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
      * @covers go\Structs\Creator\Creator::create
      * @dataProvider providerCreate
      * @param mixed $spec
-     * @param string $namespace
+     * @param string $ns
      * @param array $dargs
      * @param array $result (null - exception)
+     * @param boolean $up [optional]
      */
-    public function testCreate($spec, $namespace, $dargs, $result)
+    public function testCreate($spec, $ns, $dargs, $result, $up = true)
     {
         if (\is_null($result)) {
             $this->setExpectedException('go\Structs\Exceptions\ConfigFormat');
         }
-        $actual = Creator::create($spec, $namespace, $dargs);
+        $actual = Creator::create($spec, $ns, $dargs, $up);
         if (!\is_null($result)) {
             $this->assertInstanceOf('go\Tests\Structs\Creator\mocks\Create', $actual);
             $this->assertEquals($result, $actual->getArgs());
@@ -79,19 +80,40 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
                 array('Create', array(3, 4)),
                 'go\Tests\Structs\Creator\mocks',
                 array(1, 2),
+                array(array(3, 4)),
+            ),
+            array(
+                array('Create', array(3, 4)),
+                'go\Tests\Structs\Creator\mocks',
+                array(1, 2),
                 array(3, 4),
+                false,
             ),
             array(
                 array('Create', array()),
                 'go\Tests\Structs\Creator\mocks',
                 array(1, 2),
                 array(),
+                false,
             ),
             array(
                 array('Create'),
                 'go\Tests\Structs\Creator\mocks',
                 array(1, 2),
                 array(),
+            ),
+            array(
+                array('Create', null),
+                'go\Tests\Structs\Creator\mocks',
+                array(1, 2),
+                array(null),
+            ),
+            array(
+                array('Create', null),
+                'go\Tests\Structs\Creator\mocks',
+                array(1, 2),
+                null,
+                false,
             ),
             array(
                 array(
@@ -229,8 +251,8 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('go\Structs\Creator\Factory', $factory);
         $this->assertEquals('go\Tests\Structs\Creator\mocks', $factory->getBasicNamespace());
         $this->assertEquals(array(), $factory->getDefaultArgs());
-        $object = $factory->create(array('Create', array(5, 6, 7)));
+        $object = $factory->create(array('Create', 'arg'));
         $this->assertInstanceOf('go\Tests\Structs\Creator\mocks\Create', $object);
-        $this->assertEquals(array(5, 6, 7), $object->getArgs());
+        $this->assertEquals(array('arg'), $object->getArgs());
     }
 }
