@@ -40,7 +40,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             'a' => array(1, 2),
             'b' => array(1, 2),
-            'c' => array(1, 2),
+            'c' => array(),
             'd' => array(3, 4),
             'e' => array(),
             'f' => array(3, 4),

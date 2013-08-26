@@ -38,7 +38,7 @@ class Creator
             throw new ConfigFormat('Creator', 'error type of spec: '.\gettype($spec));
         }
         if (isset($spec[0])) {
-            $args = isset($spec[1]) ? $spec[1] : $dargs;
+            $args = isset($spec[1]) ? $spec[1] : array();
             return self::createByClassname($spec[0], $namespace, $args);
         }
         if (isset($spec['classname'])) {

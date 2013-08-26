@@ -91,7 +91,7 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
                 array('Create'),
                 'go\Tests\Structs\Creator\mocks',
                 array(1, 2),
-                array(1, 2),
+                array(),
             ),
             array(
                 array(
