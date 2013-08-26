@@ -61,16 +61,16 @@ class LazyListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers go\Structs\Creator\LazyList::getConstructArgs
+     * @covers go\Structs\Creator\LazyList::getDefaultArgs
      */
-    public function testGetConstructArgs()
+    public function testGetDefaultArgs()
     {
         $ll = $this->createLL();
-        $this->assertEquals($this->args, $ll->getConstructArgs());
+        $this->assertEquals($this->args, $ll->getDefaultArgs());
     }
 
     /**
-     * @covers go\Structs\Creator\LazyList::creatorFactory
+     * @covers go\Structs\Creator\LazyList::getCreatorFactory
      */
     public function testGetCreatorFactory()
     {
@@ -78,7 +78,7 @@ class LazyListTest extends \PHPUnit_Framework_TestCase
         $factory = $ll->getCreatorFactory();
         $this->assertInstanceOf('go\Structs\Creator\Factory', $factory);
         $this->assertEquals($this->namespace, $factory->getBasicNamespace());
-        $this->assertEquals($this->args, $factory->getConstructArgs());
+        $this->assertEquals($this->args, $factory->getDefaultArgs());
     }
 
     /**

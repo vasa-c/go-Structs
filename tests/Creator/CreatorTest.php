@@ -21,15 +21,15 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerCreate
      * @param mixed $spec
      * @param string $namespace
-     * @param array $cargs
+     * @param array $dargs
      * @param array $result (null - exception)
      */
-    public function testCreate($spec, $namespace, $cargs, $result)
+    public function testCreate($spec, $namespace, $dargs, $result)
     {
         if (\is_null($result)) {
             $this->setExpectedException('go\Structs\Exceptions\ConfigFormat');
         }
-        $actual = Creator::create($spec, $namespace, $cargs);
+        $actual = Creator::create($spec, $namespace, $dargs);
         if (!\is_null($result)) {
             $this->assertInstanceOf('go\Tests\Structs\Creator\mocks\Create', $actual);
             $this->assertEquals($result, $actual->getArgs());
@@ -228,7 +228,7 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
         $factory = Creator::getFactory('go\Tests\Structs\Creator\mocks');
         $this->assertInstanceOf('go\Structs\Creator\Factory', $factory);
         $this->assertEquals('go\Tests\Structs\Creator\mocks', $factory->getBasicNamespace());
-        $this->assertEquals(array(), $factory->getConstructArgs());
+        $this->assertEquals(array(), $factory->getDefaultArgs());
         $object = $factory->create(array('Create', array(5, 6, 7)));
         $this->assertInstanceOf('go\Tests\Structs\Creator\mocks\Create', $object);
         $this->assertEquals(array(5, 6, 7), $object->getArgs());

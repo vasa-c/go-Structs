@@ -19,35 +19,35 @@ class Creator
      *        specification of object
      * @param string $namespace [optional]
      *        basic namespace
-     * @param array $cargs [optional]
-     *        arguments for constructor
+     * @param array $dargs [optional]
+     *        default arguments for constructor
      * @return object
      *         created object
      * @throws \go\Structs\Exceptions\ConfigFormat
      *         error format of specification
      */
-    public static function create($spec, $namespace = null, array $cargs = null)
+    public static function create($spec, $namespace = null, array $dargs = null)
     {
         if (\is_object($spec)) {
             return $spec;
         }
         if (\is_string($spec)) {
-            return self::createByClassname($spec, $namespace, $cargs);
+            return self::createByClassname($spec, $namespace, $dargs);
         }
         if (!\is_array($spec)) {
             throw new ConfigFormat('Creator', 'error type of spec: '.\gettype($spec));
         }
         if (isset($spec[0])) {
-            $args = isset($spec[1]) ? $spec[1] : $cargs;
+            $args = isset($spec[1]) ? $spec[1] : $dargs;
             return self::createByClassname($spec[0], $namespace, $args);
         }
         if (isset($spec['classname'])) {
-            $args = self::createArgs($spec, $cargs);
+            $args = self::createArgs($spec, $dargs);
             return self::createByClassname($spec['classname'], $namespace, $args);
         }
         if (isset($spec['creator'])) {
             $creator = $spec['creator'];
-            $args = self::createArgs($spec, $cargs);
+            $args = self::createArgs($spec, $dargs);
             return \call_user_func_array($creator, $args);
         }
         throw new ConfigFormat('Creator', 'classname or creator is not found');
@@ -58,15 +58,15 @@ class Creator
      *
      * @param array $specs
      * @param string $namespace [optional]
-     * @param array $cargs [optional]
+     * @param array $dargs [optional]
      * @return array
      * @throws \go\Structs\Exceptions\ConfigFormat
      */
-    public static function listCreate(array $specs, $namespace = null, array $cargs = null)
+    public static function listCreate(array $specs, $namespace = null, array $dargs = null)
     {
         $result = array();
         foreach ($specs as $k => $spec) {
-            $result[$k] = self::create($spec, $namespace, $cargs);
+            $result[$k] = self::create($spec, $namespace, $dargs);
         }
         return $result;
     }
@@ -75,22 +75,22 @@ class Creator
      * Create factory
      *
      * @param string $namespace [optional]
-     * @param array $cargs [optional]
+     * @param array $dargs [optional]
      * @return \go\Structs\Creator\Factory
      */
-    public static function getFactory($namespace = null, array $cargs = null)
+    public static function getFactory($namespace = null, array $dargs = null)
     {
-        return new Factory($namespace, $cargs);
+        return new Factory($namespace, $dargs);
     }
 
     /**
      * Create arguments list
      *
      * @param array $spec
-     * @param array $cargs
+     * @param array $dargs
      * @return array
      */
-    private static function createArgs(array $spec, array $cargs)
+    private static function createArgs(array $spec, array $dargs)
     {
         if (isset($spec['params'])) {
             return array($spec['params']);
@@ -100,7 +100,7 @@ class Creator
             }
             return $spec['args'];
         } else {
-            return $cargs ?: array();
+            return $dargs ?: array();
         }
     }
 

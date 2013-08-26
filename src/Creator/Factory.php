@@ -14,12 +14,12 @@ class Factory
      * Constructor
      *
      * @param string $namespace [optional]
-     * @param array $cargs [optional]
+     * @param array $dargs [optional]
      */
-    public function __construct($namespace = null, array $cargs = null)
+    public function __construct($namespace = null, array $dargs = null)
     {
         $this->namespace = $namespace;
-        $this->cargs = $cargs ?: array();
+        $this->dargs = $dargs ?: array();
     }
 
     /**
@@ -33,13 +33,13 @@ class Factory
     }
 
     /**
-     * Get constructor arguments
+     * Get default arguments
      *
      * @return array
      */
-    public function getConstructArgs()
+    public function getDefaultArgs()
     {
-        return $this->cargs;
+        return $this->dargs;
     }
 
     /**
@@ -50,7 +50,7 @@ class Factory
      */
     public function create($spec)
     {
-        return Creator::create($spec, $this->namespace, $this->cargs);
+        return Creator::create($spec, $this->namespace, $this->dargs);
     }
 
     /**
@@ -62,7 +62,7 @@ class Factory
      */
     public function listCreate(array $specs)
     {
-        return Creator::listCreate($specs, $this->namespace, $this->cargs);
+        return Creator::listCreate($specs, $this->namespace, $this->dargs);
     }
 
     /**
@@ -74,7 +74,7 @@ class Factory
      */
     public function __invoke($spec)
     {
-        return Creator::create($spec, $this->namespace, $this->cargs);
+        return Creator::create($spec, $this->namespace, $this->dargs);
     }
 
     /**
@@ -85,5 +85,5 @@ class Factory
     /**
      * @var array
      */
-    protected $cargs;
+    protected $dargs;
 }

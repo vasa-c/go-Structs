@@ -19,7 +19,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers go\Structs\Creator\Factory::__construct
      * @covers go\Structs\Creator\Factory::getBasicNamespace
-     * @covers go\Structs\Creator\Factory::getConstructArgs
+     * @covers go\Structs\Creator\Factory::getDefaultArgs
      * @covers go\Structs\Creator\Factory::create
      * @covers go\Structs\Creator\Factory::listCreate
      * @covers go\Structs\Creator\Factory::__invoke
@@ -28,7 +28,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new Factory('go\Tests\Structs\Creator\mocks', array(1, 2));
         $this->assertEquals('go\Tests\Structs\Creator\mocks', $factory->getBasicNamespace());
-        $this->assertEquals(array(1, 2), $factory->getConstructArgs());
+        $this->assertEquals(array(1, 2), $factory->getDefaultArgs());
         $specs = array(
             'a' => '\go\Tests\Structs\Creator\mocks\Create',
             'b' => 'Create',

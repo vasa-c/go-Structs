@@ -80,7 +80,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers go\Structs\Registry::__construct
      * @covers go\Structs\Registry::isReadOnly
-     * @covers go\Structs\Registry::setReadOnly
+     * @covers go\Structs\Registry::toReadOnly
      */
     public function testReadonlyFlag()
     {

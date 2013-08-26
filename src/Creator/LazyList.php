@@ -17,15 +17,15 @@ class LazyList
      *        list of specifications
      * @param stirng $namespace [optional]
      *        basic namespace
-     * @param array $carg [optional]
-     *        arguments for constructors
+     * @param array $dargs [optional]
+     *        default arguments for constructors
      * @param string $name [optional
      *        name for debug and exception message
      */
-    public function __construct(array $specs, $namespace = null, array $carg = null, $name = null)
+    public function __construct(array $specs, $namespace = null, array $dargs = null, $name = null)
     {
         $this->specs = $specs;
-        $this->factory = new Factory($namespace, $carg);
+        $this->factory = new Factory($namespace, $dargs);
         $this->name = $name ?: 'LazyList';
     }
 
@@ -50,13 +50,13 @@ class LazyList
     }
 
     /**
-     * Get construct args
+     * Get default arguments
      *
      * @return array
      */
-    public function getConstructArgs()
+    public function getDefaultArgs()
     {
-        return $this->factory->getConstructArgs();
+        return $this->factory->getDefaultArgs();
     }
 
     /**
