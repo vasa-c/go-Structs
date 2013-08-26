@@ -274,4 +274,56 @@ class LazyListTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($ll->isCreated('def'));
         $this->assertFalse($ll->isCreated('unk'));
     }
+
+    /**
+     * @covers go\Structs\Creator\LazyList::createFromSettings
+     */
+    public function testCreateFromSettings()
+    {
+        $settings1 = array(
+            'namespace' => 'Def\NS',
+            'default_args' => array(1, 2),
+            'specs' => array(
+                'one' => array(
+                    'creator' => (function () {
+                        return 'instance';
+                    }),
+                ),
+            ),
+        );
+        $creator1 = LazyList::createFromSettings($settings1);
+        $this->assertEquals('Def\NS', $creator1->getBasicNamespace());
+        $this->assertEquals(array(1, 2), $creator1->getDefaultArgs());
+        $this->assertEquals(false, $creator1->getUP());
+        $this->assertEquals('instance', $creator1->one);
+
+        $settings2 = array(
+            'default_params' => 1,
+            'specs' => array(),
+        );
+        $creator2 = LazyList::createFromSettings($settings2);
+        $this->assertEquals('', $creator2->getBasicNamespace());
+        $this->assertEquals(array(1), $creator2->getDefaultArgs());
+        $this->assertEquals(true, $creator2->getUP());
+
+        $settings3 = array(
+            'default_params' => 1,
+            'up' => false,
+            'specs' => array(),
+        );
+        $creator3 = LazyList::createFromSettings($settings3);
+        $this->assertEquals(array(1), $creator3->getDefaultArgs());
+        $this->assertEquals(false, $creator3->getUP());
+
+        $settings4 = array(
+            'specs' => array(),
+        );
+        $creator4 = LazyList::createFromSettings($settings4);
+        $this->assertEquals(array(), $creator4->getDefaultArgs());
+        $this->assertEquals(true, $creator4->getUP());
+
+        $settings5 = array();
+        $this->setExpectedException('go\Structs\Exceptions\ConfigFormat');
+        return LazyList::createFromSettings($settings5);
+    }
 }

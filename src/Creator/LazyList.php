@@ -11,6 +11,42 @@ namespace go\Structs\Creator;
 class LazyList
 {
     /**
+     * Create instance by settings from array
+     *
+     * @param array $settings
+     * @return \go\Structs\Creator\LazyList
+     * @throws \go\Structs\Exceptions\ConfigFormat
+     */
+    public static function createFromSettings(array $settings)
+    {
+        $name = isset($settings['name']) ? $settings['name'] : 'LazyList';
+        if (!isset($settings['specs'])) {
+            throw new \go\Structs\Exceptions\ConfigFormat($name, 'Not found "specs" in settings');
+        }
+        $specs = $settings['specs'];
+        if (!\is_array($specs)) {
+            throw new \go\Structs\Exceptions\ConfigFormat($name, 'Settings.specs must be array');
+        }
+        $namespace = isset($settings['namespace']) ? $settings['namespace'] : '';
+        $up = true;
+        if (isset($settings['default_args'])) {
+            $dargs = $settings['default_args'];
+            if (!\is_array($dargs)) {
+                throw new \go\Structs\Exceptions\ConfigFormat($name, 'Settings.default_args must be array');
+            }
+            $up = false;
+        } elseif (isset($settings['default_params'])) {
+            $dargs = array($settings['default_params']);
+        } else {
+            $dargs = array();
+        }
+        if (isset($settings['up'])) {
+            $up = $settings['up'];
+        }
+        return new self($specs, $namespace, $dargs, $up, $name);
+    }
+
+    /**
      * Constructor
      *
      * @param array $specs
